@@ -6,16 +6,24 @@ Plug 'Shougo/vimshell.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'drmingdrmer/vim-tabbar'
+Plug 'scrooloose/nerdtree'
 Plug 'rust-lang/rust.vim'
-Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 let g:easytags_async=1
-set tabstop=4 shiftwidth=4 expandtab
-set colorcolumn=80
-noremap ;; :%s:::g<Left><Left><Left>
-set nu
-set tabstop=4
-set shiftwidth=4
+map <C-n> :NERDTreeToggle<CR>
+"set colorcolumn=80
+
+
+set smarttab "go to the next indent of the next tabstop
+set tabstop=4 "The width of a hard tabstop measured in spaces
+set shiftwidth=4 "the size of one indent
+set expandtab "expand a tab to spaces
+
+"noremap ;; :%s:::g<Left><Left><Left>
+set nonu
 set wildmode=longest,list,full
 set wildmenu
 set encoding=utf-8
@@ -86,12 +94,17 @@ if filereadable(expand("~/.vim/colors"))
 endif
 noremap <Tab> :bn<cr>
 noremap <S-Tab> :bp<cr>
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-set textwidth=80
+"set textwidth=80
+unmap <C-a>
+"let g:syntastic_disabled_filetypes=['cpp']
+set mouse=a
+" <Ctrl-l> redraws the screen and removes any search highlighting.
+"nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+" Set the type for the file type and override if file type
+" already has detected
+au BufRead,BufNewFile *.launch set filetype=xml

@@ -4,10 +4,10 @@
   ;;(setq config_files (concat (getenv "DOTFILES") "/emacs/site-lisp/")))
 ;;(setq vc-follow-symlinks t)
 ;; Sourcing packages necessary for 42 header
-(setq config_files "/usr/share/emacs/site-lisp/")
-(setq load-path (append (list nil config_files) load-path))
-(load "list.el") (load "string.el") (load "comments.el")
-(load "header.el")
+;;(setq config_files "/usr/share/emacs/site-lisp/")
+;;(setq load-path (append (list nil config_files) load-path))
+;;(load "list.el") (load "string.el") (load "comments.el")
+;;(load "header.el")
 
 ;; A few default settings, just to make sure everything works alright
 (setq-default tab-width 4)
@@ -20,8 +20,8 @@
 								64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 
 ;; Activates lines numbers
-(add-hook 'prog-mode-hook (lambda() (linum-mode)))
-(add-hook 'prog-mode-hook (lambda() (show-paren-mode)))
+;;(add-hook 'prog-mode-hook (lambda() (linum-mode)))
+;;(add-hook 'prog-mode-hook (lambda() (show-paren-mode)))
 
 ;; NEED MY FUCKING TABS
 ;; (add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "TAB") 'self-insert-command)))
@@ -46,7 +46,7 @@
 
 ;; Load Helm
 ;; (require 'helm-config)
-(global-set-key (kbd "M-x") 'helm-M-x)
+;;(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Load org mode
 (require 'org-install)
@@ -139,7 +139,8 @@
 ;;;; Magit bind
 ;;(global-set-key (kbd "M-g") 'magit-status)
 
-Little function to compile projecting looking for the closest makefile in the FS
+;;
+;;Little function to compile projecting looking for the closest makefile in the FS
 
 (defun my-make()
   (interactive)

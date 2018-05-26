@@ -5,11 +5,11 @@
 export ZSH=$HOME/.oh-my-zsh
 export PATH=$PATH:~/Users/vcombey/mongo/bin
 export PATH=$PATH:/Users/vcombey/.gem/ruby/2.4.0/bin
-export BASE16_SHELL=$HOME/.config/base16-shell/
+#export BASE16_SHELL=$HOME/.config/base16-shell/
 export work=$HOME/git/Autopilot/
 #export AUTOPILOT_PATH=$HOME/git/Autopilot/
 
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+#[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -98,6 +98,7 @@ alias gc='git commit -m'
 alias gd='git diff'
 alias gco='git checkout '
 alias v='/usr/bin/vim'
+alias e='emacs'
 export EDITOR=vim
 alias fix="git diff --name-only | uniq | xargs $EDITOR"
 plugins=zsh-syntax-highlighting

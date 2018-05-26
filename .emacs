@@ -1,4 +1,4 @@
-;; Conditionally loads the local site-lisp folder containing 42header ressources
+; Conditionally loads the local site-lisp folder containing 42header ressources
 ;;(if (string= (shell-command-to-string "printf %s $(uname -s)") "Darwin")
 	;;(setq config_files "/usr/share/emacs/site-lisp/")
   ;;(setq config_files (concat (getenv "DOTFILES") "/emacs/site-lisp/")))
@@ -44,8 +44,8 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (package-initialize)
 
-;; Load Helm
-;; (require 'helm-config)
+;;Load Helm
+;;(require 'helm-config)
 ;;(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Load org mode
@@ -72,24 +72,24 @@
 			(scroll-bar-mode -1)))
   )
 
-(load-theme 'atom-dark 'NO-CONFIRM)
+(load-theme 'nord 'NO-CONFIRM)
 
 ;;
-;;;; Loading theme depending on GUI or term
+;; Loading theme depending on GUI or term
 ;;(if (display-graphic-p)
-	;;(load-theme 'nord 'NO-CONFIRM)
-  ;;(progn
-	;;(load-theme 'atom-dark 'NO-CONFIRM)
-	;;(setq atom-dark-theme-force-faces-for-mode nil)
-	;;)
-  ;;)
+;;	(load-theme 'nord 'NO-CONFIRM)
+;;  (progn
+;;	(load-theme 'atom-dark 'NO-CONFIRM)
+;;	(setq atom-dark-theme-force-faces-for-mode nil)
+;;	)
+;;  )
 ;;
 
 ;;;; Do not show the startup screen
 ;;(setq inhibit-startup-screen t)
 ;;
-;;;; Putting font
-;;(set-default-font "Roboto Mono Medium for Powerline-11")
+;; Putting font
+(set-default-font "Roboto Mono Medium for Powerline-11")
 ;;
 ;;;; Scroll settings
 (setq scroll-margin 3
@@ -190,9 +190,9 @@
 ;;(evil-define-key 'insert 'evil-insert-state-map (kbd "C-n") 'company-complete)
 ;;(evil-define-key 'insert 'evil-insert-state-map (kbd "C-p") 'company-complete)
 ;;
-;;(add-hook 'rust-mode-hook #'racer-mode)
-;;(add-hook 'racer-mode-hook #'eldoc-mode)
-;;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
 ;;
 ;;(add-hook 'ibuffer-hook
     ;;(lambda ()
@@ -255,7 +255,7 @@
  '(comment-style (quote extra-line))
  '(custom-safe-themes
    (quote
-	("e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
+	("7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
  '(global-company-mode nil)
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)

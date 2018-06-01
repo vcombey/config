@@ -4,10 +4,29 @@
   ;;(setq config_files (concat (getenv "DOTFILES") "/emacs/site-lisp/")))
 ;;(setq vc-follow-symlinks t)
 ;; Sourcing packages necessary for 42 header
-(setq config_files "/usr/share/emacs/site-lisp/")
-(setq load-path (append (list nil config_files) load-path))
-(load "list.el") (load "string.el") (load "comments.el")
-(load "header.el")
+;;(setq config_files "/usr/share/emacs/site-lisp/")
+;;(setq load-path (append (list nil config_files) load-path))
+;;(load "list.el") (load "string.el") (load "comments.el")
+;;(load "header.el")
+
+					; list the packages you want
+(setq package-list '(evil powerline magit helm org-install))
+
+					; list the repositories containing them
+(setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))
+
+					; activate all the packages (in particular autoloads)
+(package-initialize)
+
+					; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+
+					; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 
 ;; A few default settings, just to make sure everything works alright
 (setq-default tab-width 4)
@@ -244,6 +263,26 @@ Little function to compile projecting looking for the closest makefile in the FS
   ;;(when (fboundp 'auto-dim-other-buffers-mode)
     ;;(auto-dim-other-buffers-mode t))))
 ;;
+					; list the packages you want
+(setq package-list '(evil magit org-install powerline))
+
+					; list the repositories containing them
+(setq package-archives '(("elpa" . "http://tromey.com/elpa/")
+			 ("gnu" . "http://elpa.gnu.org/packages/")
+			 ("marmalade" . "http://marmalade-repo.org/packages/")))
+
+					; activate all the packages (in particular autoloads)
+(package-initialize)
+
+					; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+
+					; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 
 ;*******************************************************************************;
 (custom-set-variables

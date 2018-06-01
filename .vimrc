@@ -11,16 +11,17 @@ Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 let g:easytags_async=1
 map <C-n> :NERDTreeToggle<CR>
 "set colorcolumn=80
 
-
+colorscheme nord
 set smarttab "go to the next indent of the next tabstop
 set tabstop=4 "The width of a hard tabstop measured in spaces
 set shiftwidth=4 "the size of one indent
-set expandtab "expand a tab to spaces
+"set expandtab "expand a tab to spaces
 
 "noremap ;; :%s:::g<Left><Left><Left>
 set nonu

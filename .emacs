@@ -1,4 +1,4 @@
-;; Conditionally loads the local site-lisp folder containing 42header ressources
+; Conditionally loads the local site-lisp folder containing 42header ressources
 ;;(if (string= (shell-command-to-string "printf %s $(uname -s)") "Darwin")
 	;;(setq config_files "/usr/share/emacs/site-lisp/")
   ;;(setq config_files (concat (getenv "DOTFILES") "/emacs/site-lisp/")))
@@ -10,10 +10,18 @@
 ;;(load "header.el")
 
 					; list the packages you want
-(setq package-list '(evil powerline magit helm org-install))
+(setq package-list '(evil powerline magit helm helm-config org-install))
 
 					; list the repositories containing them
+;; Sourcing my modes a d packages init
+(require 'package)
+(package-initialize)
+
 (setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+
 
 					; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -39,8 +47,8 @@
 								64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 
 ;; Activates lines numbers
-(add-hook 'prog-mode-hook (lambda() (linum-mode)))
-(add-hook 'prog-mode-hook (lambda() (show-paren-mode)))
+;;(add-hook 'prog-mode-hook (lambda() (linum-mode)))
+;;(add-hook 'prog-mode-hook (lambda() (show-paren-mode)))
 
 ;; NEED MY FUCKING TABS
 ;; (add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "TAB") 'self-insert-command)))
@@ -56,33 +64,32 @@
 (setq auto-save-file-name-transforms
 	  `((".*" ,"~/.emacs.d" t)))
 
-;; Sourcing my modes a d packages init
-(require 'package)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(package-initialize)
-
-;; Load Helm
-;; (require 'helm-config)
+;;Load Helm
+(require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Load org mode
 (require 'org-install)
 
+;; optional: this is the evil state that evil-magit will use
+ (setq evil-magit-state 'normal)
+;; optional: disable additional bindings for yanking text
+;; (setq evil-magit-use-y-for-yank nil)
+(require 'evil-magit)
+
 ;; Load evil-mode
 (require 'evil)
 (evil-mode 1)
 (evil-select-search-module 'evil-search-module 'evil-search)
-
-;; Powerline,powerline
-(require 'powerline)
-(powerline-center-evil-theme)
-
 ;; Remaps C-space as the ESC key. (I need C-c for idiomatic emacs, but i just cant go back to hitting esc)
 (evil-define-key 'insert 'evil-insert-state-map (kbd "jk") 'evil-force-normal-state)
 (evil-define-key 'visual 'evil-visual-state-map (kbd "C-@") 'evil-force-normal-state)
 (evil-define-key 'replace 'evil-replace-state-map (kbd "C-@") 'evil-force-normal-state)
+
+
+;; Powerline,powerline
+(require 'powerline)
+(powerline-center-evil-theme)
 
 ;; Disable toolbar mode in GUI emacs
 (if (display-graphic-p)
@@ -91,24 +98,24 @@
 			(scroll-bar-mode -1)))
   )
 
-(load-theme 'atom-dark 'NO-CONFIRM)
+(load-theme 'nord 'NO-CONFIRM)
 
 ;;
-;;;; Loading theme depending on GUI or term
+;; Loading theme depending on GUI or term
 ;;(if (display-graphic-p)
-	;;(load-theme 'nord 'NO-CONFIRM)
-  ;;(progn
-	;;(load-theme 'atom-dark 'NO-CONFIRM)
-	;;(setq atom-dark-theme-force-faces-for-mode nil)
-	;;)
-  ;;)
+;;	(load-theme 'nord 'NO-CONFIRM)
+;;  (progn
+;;	(load-theme 'atom-dark 'NO-CONFIRM)
+;;	(setq atom-dark-theme-force-faces-for-mode nil)
+;;	)
+;;  )
 ;;
 
 ;;;; Do not show the startup screen
 ;;(setq inhibit-startup-screen t)
 ;;
-;;;; Putting font
-;;(set-default-font "Roboto Mono Medium for Powerline-11")
+;; Putting font
+(set-default-font "Roboto Mono Medium for Powerline-11")
 ;;
 ;;;; Scroll settings
 (setq scroll-margin 3
@@ -158,7 +165,8 @@
 ;;;; Magit bind
 ;;(global-set-key (kbd "M-g") 'magit-status)
 
-Little function to compile projecting looking for the closest makefile in the FS
+;;
+;;Little function to compile projecting looking for the closest makefile in the FS
 
 (defun my-make()
   (interactive)
@@ -208,9 +216,9 @@ Little function to compile projecting looking for the closest makefile in the FS
 ;;(evil-define-key 'insert 'evil-insert-state-map (kbd "C-n") 'company-complete)
 ;;(evil-define-key 'insert 'evil-insert-state-map (kbd "C-p") 'company-complete)
 ;;
-;;(add-hook 'rust-mode-hook #'racer-mode)
-;;(add-hook 'racer-mode-hook #'eldoc-mode)
-;;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
 ;;
 ;;(add-hook 'ibuffer-hook
     ;;(lambda ()
@@ -263,27 +271,6 @@ Little function to compile projecting looking for the closest makefile in the FS
   ;;(when (fboundp 'auto-dim-other-buffers-mode)
     ;;(auto-dim-other-buffers-mode t))))
 ;;
-					; list the packages you want
-(setq package-list '(evil magit org-install powerline))
-
-					; list the repositories containing them
-(setq package-archives '(("elpa" . "http://tromey.com/elpa/")
-			 ("gnu" . "http://elpa.gnu.org/packages/")
-			 ("marmalade" . "http://marmalade-repo.org/packages/")))
-
-					; activate all the packages (in particular autoloads)
-(package-initialize)
-
-					; fetch the list of packages available
-(unless package-archive-contents
-  (package-refresh-contents))
-
-					; install the missing packages
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
-
-
 ;*******************************************************************************;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -293,7 +280,7 @@ Little function to compile projecting looking for the closest makefile in the FS
  '(comment-style (quote extra-line))
  '(custom-safe-themes
    (quote
-	("e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
+	("7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
  '(global-company-mode nil)
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)

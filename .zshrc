@@ -5,18 +5,19 @@
 export ZSH=$HOME/.oh-my-zsh
 export PATH=$PATH:~/Users/vcombey/mongo/bin
 export PATH=$PATH:/Users/vcombey/.gem/ruby/2.4.0/bin
-export BASE16_SHELL=$HOME/.config/base16-shell/
+export PATH=~/.brew/bin:$PATH
+#export BASE16_SHELL=$HOME/.config/base16-shell/
 export work=$HOME/git/Autopilot/
 #export AUTOPILOT_PATH=$HOME/git/Autopilot/
+export RUST_SRC_PATH=$HOME/rust/src
 
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+#[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 ZSHRC=~/.zshrc
 source $HOME/.cargo/env
-source $work/ROS/workspace/install/setup.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -99,33 +100,12 @@ alias gc='git commit -m'
 alias gd='git diff'
 alias gco='git checkout '
 alias v='/usr/bin/vim'
-alias e='emacs -nw'
+alias e='emacs'
 export EDITOR=vim
 alias fix="git diff --name-only | uniq | xargs $EDITOR"
 plugins=zsh-syntax-highlighting
 #source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias work="cd ~/42/mod1/srcs"
-source /home/alexis/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/git/Autopilot/ROS/workspace/install/setup.sh
-
-export _CATKIN_SETUP_DIR=/home/alexis/git/Autopilot/ROS/workspace/install
-if [ -f /opt/ros/kinetic/setup.zsh ]; then
-  source /opt/ros/kinetic/setup.zsh
-fi
-
-cd ${HOME}
-
-export LPR_ROS=${HOME}/ros
-
-if [ -d ${LPR_ROS} ]; then
-    for i in $(ls ${LPR_ROS}); do
-        if [ -d ${LPR_ROS}/${i} ]; then
-            if [ -f ${LPR_ROS}/${i}/setup.zsh ]; then
-                source ${LPR_ROS}/${i}/setup.zsh --extend
-            fi
-        fi
-    done
-fi
-#export ROS_HOSTNAME=bakus-pc
-#export ROS_MASTER_URI=http://10.0.1.168:11311
+#source /home/alexis/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fpath+=~/.zfunc
 

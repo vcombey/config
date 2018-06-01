@@ -1,5 +1,4 @@
 call plug#begin()
-Plug 'fatih/vim-go'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'Shougo/vimshell.vim'
@@ -14,10 +13,20 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'arcticicestudio/nord-vim'
 call plug#end()
 let g:easytags_async=1
+let g:easytags_auto_highlight=0
+set hidden
+let g:racer_cmd = "/Users/vcombey/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
 map <C-n> :NERDTreeToggle<CR>
 "set colorcolumn=80
 
 colorscheme nord
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+set colorcolumn=80
 set smarttab "go to the next indent of the next tabstop
 set tabstop=4 "The width of a hard tabstop measured in spaces
 set shiftwidth=4 "the size of one indent
@@ -109,3 +118,6 @@ set mouse=a
 " Set the type for the file type and override if file type
 " already has detected
 au BufRead,BufNewFile *.launch set filetype=xml
+autocmd BufNewFile,BufRead *.lalrpop   set syntax=rust
+set foldcolumn=1
+"source /Users/vcombey/.vim/stdheader.vim

@@ -10,13 +10,12 @@
 ;;(load "header.el")
 
 					; list the packages you want
-(setq package-list '(evil powerline magit helm helm-config org-install))
+(setq package-list '(evil racer evil-leader powerline magit helm evil-magit eyebrowse))
 
-					; list the repositories containing them
-;; Sourcing my modes a d packages init
 (require 'package)
 (package-initialize)
 
+					; list the repositories containing them
 (setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -32,8 +31,7 @@
 
 					; install the missing packages
 (dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
+  (unless (package-installed-p package) (package-install package)))
 
 
 ;; A few default settings, just to make sure everything works alright
@@ -71,11 +69,16 @@
 ;; Load org mode
 (require 'org-install)
 
-;; optional: this is the evil state that evil-magit will use
- (setq evil-magit-state 'normal)
-;; optional: disable additional bindings for yanking text
-;; (setq evil-magit-use-y-for-yank nil)
+(require 'evil-leader)
+(global-evil-leader-mode)
+(evil-leader/set-leader ",")
+(evil-leader/set-key
+  "e" 'find-file
+  "b" 'switch-to-buffer
+  "k" 'kill-buffer)
+
 (require 'evil-magit)
+ (setq evil-magit-state 'normal)
 
 ;; Load evil-mode
 (require 'evil)
@@ -271,6 +274,10 @@
   ;;(when (fboundp 'auto-dim-other-buffers-mode)
     ;;(auto-dim-other-buffers-mode t))))
 ;;
+(setq vc-follow-symlinks t)
+(add-hook 'rust-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 ;*******************************************************************************;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -286,7 +293,7 @@
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
+	(evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,4 +1,4 @@
-; Conditionally loads the local site-lisp folder containing 42header ressources
+;; Conditionally loads the local site-lisp folder containing 42header ressources
 ;;(if (string= (shell-command-to-string "printf %s $(uname -s)") "Darwin")
 	;;(setq config_files "/usr/share/emacs/site-lisp/")
   ;;(setq config_files (concat (getenv "DOTFILES") "/emacs/site-lisp/")))
@@ -9,11 +9,11 @@
 ;;(load "list.el") (load "string.el") (load "comments.el")
 ;;(load "header.el")
 
-					; list the packages you want
-(setq package-list '(evil racer evil-leader powerline magit helm evil-magit eyebrowse))
-
 (require 'package)
 (package-initialize)
+					; list the packages you want
+(setq package-list '(evil racer evil-leader powerline magit evil-magit helm eyebrowse))
+
 
 					; list the repositories containing them
 (setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))

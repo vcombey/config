@@ -10,7 +10,7 @@
 ;;(load "header.el")
 
 					; list the packages you want
-(setq package-list '(evil racer evil-leader powerline magit helm evil-magit eyebrowse))
+(setq package-list '(evil base16-theme flycheck flycheck-rust cargo company racer evil-leader powerline magit helm evil-magit eyebrowse))
 
 (require 'package)
 (package-initialize)
@@ -43,6 +43,9 @@
 (setq-default c-default-style "linux")
 (setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60
 								64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
+
+(load-theme 'base16-default-dark t)
+
 
 ;; Activates lines numbers
 ;;(add-hook 'prog-mode-hook (lambda() (linum-mode)))
@@ -209,18 +212,29 @@
 ;;;; (slime-setup '(slime-fancy slime-company))
 ;;
 ;;;;;;;;;;; AUTO COMPLETE ;;;;;;;;;;;;;;;;;
-;;(add-hook 'after-init-hook 'global-company-mode)
-;;(setq company-auto-complete t)
-;;(eval-after-load 'company
-  ;;'(progn
-	 ;;(define-key company-active-map (kbd "C-n") 'company-complete-common-or-cycle)
-	 ;;(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
-	 ;;(define-key company-active-map (kbd "<tab>") 'company-complete-common)))
-;;(evil-define-key 'insert 'evil-insert-state-map (kbd "C-n") 'company-complete)
-;;(evil-define-key 'insert 'evil-insert-state-map (kbd "C-p") 'company-complete)
-;;
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-auto-complete t)
+(eval-after-load 'company
+  '(progn
+	 (define-key company-active-map (kbd "C-n") 'company-complete-common-or-cycle)
+	 (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+	 (define-key company-active-map (kbd "<tab>") 'company-complete-common)))
+(evil-define-key 'insert 'evil-insert-state-map (kbd "C-n") 'company-complete)
+(evil-define-key 'insert 'evil-insert-state-map (kbd "C-p") 'company-complete)
+
+
+					;;company is for completion
+(setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
+(setq racer-rust-src-path "/Users/vcombey/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src") ;; Rust source code PATH
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c TAB") #'rust-format-buffer)))
+(add-hook 'rust-mode-hook 'cargo-minor-mode)
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+
 (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
 ;;
 ;;(add-hook 'ibuffer-hook
@@ -275,9 +289,6 @@
     ;;(auto-dim-other-buffers-mode t))))
 ;;
 (setq vc-follow-symlinks t)
-(add-hook 'rust-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 ;*******************************************************************************;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -287,13 +298,13 @@
  '(comment-style (quote extra-line))
  '(custom-safe-themes
    (quote
-	("7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
+	("527df6ab42b54d2e5f4eec8b091bd79b2fa9a1da38f5addd297d1c91aa19b616" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
  '(global-company-mode nil)
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
+	(base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

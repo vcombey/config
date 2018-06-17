@@ -6,12 +6,12 @@ export ZSH=$HOME/.oh-my-zsh
 export PATH=$PATH:~/Users/vcombey/mongo/bin
 export PATH=$PATH:/Users/vcombey/.gem/ruby/2.4.0/bin
 export PATH=~/.brew/bin:$PATH
-#export BASE16_SHELL=$HOME/.config/base16-shell/
+export BASE16_SHELL=$HOME/.config/base16-shell/
 export work=$HOME/git/Autopilot/
 #export AUTOPILOT_PATH=$HOME/git/Autopilot/
 export RUST_SRC_PATH=$HOME/rust/src
 
-#[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -100,12 +100,11 @@ alias gc='git commit -m'
 alias gd='git diff'
 alias gco='git checkout '
 alias v='/usr/bin/vim'
-alias e='emacs'
+alias e='emacs --no-splash'
 export EDITOR=vim
 alias fix="git diff --name-only | uniq | xargs $EDITOR"
 plugins=zsh-syntax-highlighting
 #source $HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias work="cd ~/42/mod1/srcs"
-#source /home/alexis/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fpath+=~/.zfunc
 

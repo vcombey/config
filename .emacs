@@ -1,3 +1,4 @@
+;;;; Package emacsrc
 ;; Conditionally loads the local site-lisp folder containing 42header ressources
 ;;(if (string= (shell-command-to-string "printf %s $(uname -s)") "Darwin")
 	;;(setq config_files "/usr/share/emacs/site-lisp/")
@@ -12,7 +13,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse))
+(setq package-list '(evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 
 					; list the repositories containing them
@@ -46,7 +47,6 @@
 								64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 
 (load-theme 'base16-nord t)
-
 
 ;; Activates lines numbers
 ;;(add-hook 'prog-mode-hook (lambda() (linum-mode)))
@@ -92,7 +92,12 @@
 (evil-define-key 'insert 'evil-insert-state-map (kbd "jk") 'evil-force-normal-state)
 (evil-define-key 'visual 'evil-visual-state-map (kbd "C-@") 'evil-force-normal-state)
 (evil-define-key 'replace 'evil-replace-state-map (kbd "C-@") 'evil-force-normal-state)
-
+  (require 'neotree)
+(evil-define-key 'normal 'evil-replace-state-map (kbd "C-n") 'neotree-toggle)
+ (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 
 ;; Powerline,powerline
 (require 'powerline)
@@ -310,11 +315,10 @@
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
+	(exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-put 'narrow-to-region 'disabled nil)

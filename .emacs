@@ -13,7 +13,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
+(setq package-list '(nasm-mode evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 
 					; list the repositories containing them
@@ -23,6 +23,9 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
+
+(require 'nasm-mode)
+(add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\)$" . nasm-mode))
 
 					; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -315,7 +318,7 @@
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
+	(nasm-mode exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

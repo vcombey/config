@@ -24,6 +24,9 @@
 
 ;(setq mode-require-final-newline nil)
 
+(require 'nasm-mode)
+(add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\)$" . nasm-mode))
+
 					; activate all the packages (in particular autoloads)
 (package-initialize)
 

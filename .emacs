@@ -12,7 +12,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
+(setq package-list '(haskell-mode key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 
 					; list the repositories containing them
@@ -23,9 +23,6 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
 ;(setq mode-require-final-newline nil)
-
-(require 'nasm-mode)
-(add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\)$" . nasm-mode))
 
 					; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -239,12 +236,17 @@
 	 (define-key company-active-map (kbd "C-n") 'company-complete-common-or-cycle)
 	 (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
 	 (define-key company-active-map (kbd "<tab>") 'company-complete-common)))
+(setq company-idle-delay nil)
 
 ; Make company aware of merlin
 (with-eval-after-load 'company
  (add-to-list 'company-backends 'merlin-company-backend))
+
 ; Enable company on merlin managed buffers
 (add-hook 'merlin-mode-hook 'company-mode)
+(add-hook 'haskell-mode-hook (lambda () (set (make-local-variable 'company-backends)
+                 (append '((company-capf company-dabbrev-code))
+                         company-backends))))
 ; Or enable it globally:
 ; (add-hook 'after-init-hook 'global-company-mode)
 
@@ -323,19 +325,25 @@
   ;;(when (fboundp 'auto-dim-other-buffers-mode)
     ;;(auto-dim-other-buffers-mode t))))
 ;;
-(setq vc-follow-symlinks t)
-(load "/Users/vcombey/.opam/default/share/emacs/site-lisp/tuareg-site-file")
-(add-hook 'tuareg-mode-hook #'(lambda() (setq mode-name "🐫")))
-
-
-(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
- (when (and opam-share (file-directory-p opam-share))
-  (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
-  (autoload 'merlin-mode "merlin" nil t nil)
-  (add-hook 'tuareg-mode-hook 'merlin-mode t)
-  (add-hook 'caml-mode-hook 'merlin-mode t)))
-
-(add-hook 'tuareg-mode-hook 'merlin-mode)
+;;(setq vc-follow-symlinks t)
+       ;;(load "/home/vcombey/.opam/system/share/emacs/site-lisp/tuareg-site-file")
+;;(add-hook 'tuareg-mode-hook #'(lambda() (setq mode-name "🐫")))
+;;(setq tuareg-use-abbrev-mode nil)
+;;
+ ;;(let ((opam-share (ignore-errors (car (process-lines "opam" "config"
+   ;;"var" "share"))))))
+      ;;(when (and opam-share (file-directory-p opam-share))
+       ;;;; Register Merlin
+       ;;(add-to-list 'load-path (expand-file-name "emacs/site-lisp"
+   ;;opam-share))
+       ;;(autoload 'merlin-mode "merlin" nil t nil)
+       ;;;; Automatically start it in OCaml buffers
+       ;;(add-hook 'tuareg-mode-hook 'merlin-mode t)
+       ;;(add-hook 'caml-mode-hook 'merlin-mode t)
+       ;;;; Use opam switch to lookup ocamlmerlin binary
+       ;;(setq merlin-command 'opam)))
+;;
+;;(add-hook 'tuareg-mode-hook 'merlin-mode)
 ;*******************************************************************************;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

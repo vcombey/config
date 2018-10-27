@@ -12,7 +12,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(haskell-emacs key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
+(setq package-list '(haskell-mode key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 
 					; list the repositories containing them
@@ -23,9 +23,6 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
 ;(setq mode-require-final-newline nil)
-
-(require 'nasm-mode)
-(add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\)$" . nasm-mode))
 
 					; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -248,8 +245,12 @@
 ; Make company aware of merlin
 (with-eval-after-load 'company
  (add-to-list 'company-backends 'merlin-company-backend))
+
 ; Enable company on merlin managed buffers
 (add-hook 'merlin-mode-hook 'company-mode)
+(add-hook 'haskell-mode-hook (lambda () (set (make-local-variable 'company-backends)
+                 (append '((company-capf company-dabbrev-code))
+                         company-backends))))
 ; Or enable it globally:
 ; (add-hook 'after-init-hook 'global-company-mode)
 

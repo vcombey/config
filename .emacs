@@ -12,7 +12,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
+(setq package-list '(haskell-emacs key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 
 					; list the repositories containing them
@@ -101,6 +101,11 @@
   (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
   (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'evil-numbers)
+(define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
 
 (require 'key-chord)
 (key-chord-mode 1)
@@ -239,7 +244,7 @@
 	 (define-key company-active-map (kbd "C-n") 'company-complete-common-or-cycle)
 	 (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
 	 (define-key company-active-map (kbd "<tab>") 'company-complete-common)))
-
+(setq company-idle-delay nil)
 ; Make company aware of merlin
 (with-eval-after-load 'company
  (add-to-list 'company-backends 'merlin-company-backend))
@@ -323,17 +328,20 @@
   ;;(when (fboundp 'auto-dim-other-buffers-mode)
     ;;(auto-dim-other-buffers-mode t))))
 ;;
-(setq vc-follow-symlinks t)
-(load "/Users/vcombey/.opam/default/share/emacs/site-lisp/tuareg-site-file")
-(add-hook 'tuareg-mode-hook #'(lambda() (setq mode-name "🐫")))
-
-
-(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
- (when (and opam-share (file-directory-p opam-share))
-  (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
-  (autoload 'merlin-mode "merlin" nil t nil)
-  (add-hook 'tuareg-mode-hook 'merlin-mode t)
-  (add-hook 'caml-mode-hook 'merlin-mode t)))
+;;;OCAML
+;;(setq vc-follow-symlinks t)
+;; (load "/Users/vcombey/.opam/ocaml-base-compiler.4.07.0/share/emacs/site-lisp/tuareg-site-file")
+;;(add-hook 'tuareg-mode-hook #'(lambda() (setq mode-name "🐫")))
+;; (let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
+;;      (when (and opam-share (file-directory-p opam-share))
+;;       ;; Register Merlin
+;;       (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+;;       (autoload 'merlin-mode "merlin" nil t nil)
+;;       ;; Automatically start it in OCaml buffers
+;;       (add-hook 'tuareg-mode-hook 'merlin-mode t)
+;;       (add-hook 'caml-mode-hook 'merlin-mode t)
+;;       ;; Use opam switch to lookup ocamlmerlin binary
+;;       (setq merlin-command 'opam)))
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 ;*******************************************************************************;
@@ -351,10 +359,13 @@
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
+	(json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line

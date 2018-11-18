@@ -12,7 +12,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(haskell-mode key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
+(setq package-list '(default-text-scale helm-gtags haskell-mode key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 
 					; list the repositories containing them
@@ -22,8 +22,16 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
-;(setq mode-require-final-newline nil)
+(require 'default-text-scale)
+(default-text-scale-mode 1)
 
+(blink-cursor-mode 0)
+(show-paren-mode 1)
+;;Load Helm
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+;(setq mode-require-final-newline nil)
 					; activate all the packages (in particular autoloads)
 (package-initialize)
 
@@ -46,7 +54,7 @@
 (setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60
 								64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
 
-(load-theme 'base16-harmonic-dark t)
+(load-theme 'base16-dracula t)
 
 ;; Activates lines numbers
 ;;(add-hook 'prog-mode-hook (lambda() (linum-mode)))
@@ -65,10 +73,6 @@
 	  `((".*" . "~/.emacs.d")))
 (setq auto-save-file-name-transforms
 	  `((".*" ,"~/.emacs.d" t)))
-
-;;Load Helm
-(require 'helm-config)
-(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Load org mode
 (require 'org-install)
@@ -99,10 +103,10 @@
   (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 
-(add-to-list 'load-path "~/.emacs.d/evil-numbers/")
-(require 'evil-numbers)
-(define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+;;(add-to-list 'load-path "~/.emacs.d/evil-numbers/")
+;;(require 'evil-numbers)
+;;(define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+;;(define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
 
 (require 'key-chord)
 (key-chord-mode 1)
@@ -113,11 +117,6 @@
 (powerline-center-evil-theme)
 
 ;; Disable toolbar mode in GUI emacs
-(if (display-graphic-p)
-	(progn ((tool-bar-mode -1)
-			(menu-bar-mode -1)
-			(scroll-bar-mode -1)))
-  )
 
 ;;(load-theme 'nord 'NO-CONFIRM)
 
@@ -136,7 +135,7 @@
 ;;(setq inhibit-startup-screen t)
 ;;
 ;; Putting font
-(set-default-font "Roboto Mono Medium for Powerline-11")
+;(set-default-font "Roboto Mono Medium for Powerline-11")
 ;;
 ;;;; Scroll settings
 (setq scroll-margin 3
@@ -343,6 +342,36 @@
 ;;       (add-hook 'caml-mode-hook 'merlin-mode t)
 ;;       ;; Use opam switch to lookup ocamlmerlin binary
 ;;       (setq merlin-command 'opam)))
+(defun c-lineup-arglist-tabs-only (ignored)
+  "Line up argument lists by tabs, not spaces"
+  (let* ((anchor (c-langelem-pos c-syntactic-element))
+         (column (c-langelem-2nd-pos c-syntactic-element))
+         (offset (- (1+ column) anchor))
+         (steps (floor offset c-basic-offset)))
+    (* (max steps 1)
+       c-basic-offset)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            ;; Add kernel style
+            (c-add-style
+             "linux-tabs-only"
+             '("linux" (c-offsets-alist
+                        (arglist-cont-nonempty
+                         c-lineup-gcc-asm-reg
+                         c-lineup-arglist-tabs-only))))))
+
+(add-hook 'c-mode-hook
+          (lambda ()
+            (let ((filename (buffer-file-name)))
+              ;; Enable kernel mode for the appropriate files
+              (when (and filename
+                         (string-match (expand-file-name "~/src/linux-trees")
+                                       filename))
+                (setq indent-tabs-mode t)
+                (setq show-trailing-whitespace t)
+                (c-set-style "linux-tabs-only")))))
+
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 ;*******************************************************************************;
@@ -355,12 +384,13 @@
  '(custom-safe-themes
    (quote
 	("542e6fee85eea8e47243a5647358c344111aa9c04510394720a3108803c8ddd1" "6271fc9740379f8e2722f1510d481c1df1fcc43e48fa6641a5c19e954c21cc8f" "d9dab332207600e49400d798ed05f38372ec32132b3f7d2ba697e59088021555" "f2dd097452b79276ce522df2f8aeb37f6d90f504529616aa46122d549910e46d" "527df6ab42b54d2e5f4eec8b091bd79b2fa9a1da38f5addd297d1c91aa19b616" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
+ '(doc-view-continuous t)
  '(global-company-mode nil)
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
+	(helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -368,5 +398,5 @@
  ;; If there is more than one, they won't work right.
  )
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
 ;; ## end of OPAM user-setup addition for emacs / base ## keep this line

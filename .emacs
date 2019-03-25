@@ -74,6 +74,18 @@
 
 ;(setq mode-require-final-newline nil)
 
+
+(require 'default-text-scale)
+(default-text-scale-mode 1)
+
+(blink-cursor-mode 0)
+(show-paren-mode 1)
+;;Load Helm
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+;(setq mode-require-final-newline nil)
+					; activate all the packages (in particular autoloads)
 ;; A few default settings, just to make sure everything works alright
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode t)

@@ -18,8 +18,6 @@
 (dolist (package package-list)
   (unless (package-installed-p package) (package-install package)))
 
-(require 'evil-string-inflection)
-
 (blink-cursor-mode 0)
 (show-paren-mode 1)
 
@@ -119,10 +117,12 @@
 ;; Load org mode
 (require 'org-install)
 
+(setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+(setq evil-want-keybinding nil)
 ;; Load evil-mode
-(require 'evil-collection)
-(evil-collection-init)
 (require 'evil)
+(when (require 'evil-collection nil t)
+  (evil-collection-init))
 (evil-mode 1)
 (evil-select-search-module 'evil-search-module 'evil-search)
 ;; Remaps C-space as the ESC key. (I need C-c for idiomatic emacs, but i just cant go back to hitting esc)
@@ -131,23 +131,33 @@
 (evil-define-key 'normal 'evil-visual-state-map (kbd "C-x h") 'evil-window-left)
 (evil-define-key 'normal 'evil-visual-state-map (kbd "C-x j") 'evil-window-down)
 (evil-define-key 'normal 'evil-visual-state-map (kbd "C-x k") 'evil-window-up)
+(evil-define-key 'normal 'evil-visual-state-map (kbd "M-.") 'xref-find-definitions)
 ;; (evil-define-key 'normal 'evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 ;; (evil-define-key 'insert 'evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 (evil-define-key 'insert 'evil-visual-state-map (kbd "C-d") 'evil-scroll-down)
 (evil-define-key 'replace 'evil-replace-state-map (kbd "C-@") 'evil-force-normal-state)
   (require 'neotree)
     (setq neo-smart-open t)
-(evil-define-key 'normal 'evil-replace-state-map (kbd "C-n") 'neotree-toggle)
- (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+(evil-define-key 'normal 'evil-replace-state-map (kbd "C-n") 'treemacs)
+;; (evil-define-key 'normal 'evil-replace-state-map (kbd "C-n") 'neotree-toggle)
+ ;;  (Evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+ ;;  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+ ;;  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 (setq evil-ex-search-case 'sensitive)
 
+(require 'evil-string-inflection)
 
 (require 'evil-numbers)
 (define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+
+(require 'treemacs)
+(define-key evil-normal-state-map (kbd "C-c C-n") 'treemacs-create-file)
+(define-key treemacs-mode-map (kbd "C-SPC") 'treemacs-peek)
+(define-key evil-normal-state-map (kbd "C-c C-d") 'treemacs-create-dir)
+(define-key evil-normal-state-map (kbd "C-c C-r") 'treemacs-rename)
+(define-key evil-normal-state-map (kbd "C-c C-p") 'treemacs-move-file)
+(treemacs-git-mode 'simple)
 
 (require 'evil-leader)
 (global-evil-leader-mode)
@@ -285,6 +295,7 @@
 ;;
 ;;;;;;;;;;; AUTO COMPLETE ;;;;;;;;;;;;;;;;;
 (add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'after-init-hook 'company-mode)
 (setq company-auto-complete t)
 (eval-after-load 'company
   '(progn
@@ -293,8 +304,8 @@
 	 (define-key company-active-map (kbd "<tab>") 'company-complete-common)))
 (setq company-idle-delay nil)
 ; Make company aware of merlin
-(with-eval-after-load 'company
- (add-to-list 'company-backends 'merlin-company-backend))
+;; (with-eval-after-load 'company
+;;  (add-to-list 'company-backends 'merlin-company-backend))
 
 ; Enable company on merlin managed buffers
 (add-hook 'merlin-mode-hook 'company-mode)
@@ -304,18 +315,25 @@
 ; Or enable it globally:
 ; (add-hook 'after-init-hook 'global-company-mode)
 
+(with-eval-after-load 'evil
+  (define-key evil-normal-state-map (kbd "M-.") nil))
 (evil-define-key 'insert 'evil-insert-state-map (kbd "C-n") 'company-complete)
 (evil-define-key 'insert 'evil-insert-state-map (kbd "C-p") 'company-complete)
 
 
 
 					;;company is for completion
-(setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
 ;(setq racer-rust-src-path "~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src") ;; Rust source code PATH
-(setq racer-rust-src-path "~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src") ;; Rust source code PATH
+;; (setq racer-rust-src-path "~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src") ;; Rust source code PATH
+(add-hook 'after-init-hook 'global-company-mode)
+
+
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode)
+(require 'rust-mode)
+(define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+(setq company-tooltip-align-annotations t)
 (add-hook 'rust-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c TAB") #'rust-format-buffer)))
@@ -442,8 +460,9 @@
  '(large-file-warning-threshold nil)
  '(package-selected-packages
    (quote
-	(spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
- '(persp-keymap-prefix ""))
+	(treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
+ '(persp-keymap-prefix "")
+ '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -85,7 +85,6 @@ nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>( viw<esc>a)<esc>bi(<esc>lel
 nnoremap <leader>[ viw<esc>a]<esc>bi[<esc>lel
 inoremap jk <esc>
-inoremap <esc> <nop>
 syntax on
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 set hlsearch

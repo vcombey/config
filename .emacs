@@ -1,7 +1,7 @@
 (require 'package)
 (package-initialize)
 					; list the packages you want
-(setq package-list '(spacemacs-theme default-text-scale evil-collection magit-gerrit evil-numbers evil-string-inflection persp-mode default-text-scale helm-gtags haskell-mode key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
+(setq package-list '(treemacs spacemacs-theme default-text-scale evil-collection magit-gerrit evil-numbers evil-string-inflection persp-mode default-text-scale helm-gtags haskell-mode key-chord evil base16-theme flycheck flycheck-rust cargo company racer evil evil-leader powerline magit helm evil-magit eyebrowse neotree))
 
 					; list the repositories containing them
 (setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))
@@ -48,6 +48,7 @@
 (require 'persp-mode)
 (persp-mode)
 (persp-mode 1)
+
 
 ;;;; Package emacsrc
 ;; Conditionally loads the local site-lisp folder containing 42header ressources
@@ -171,7 +172,6 @@
  (setq evil-magit-state 'normal)
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(require 'magit-gerrit)
 
 (require 'key-chord)
 (key-chord-mode 1)

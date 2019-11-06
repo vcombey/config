@@ -1,17 +1,17 @@
-call plug#begin()
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
-Plug 'Shougo/vimshell.vim'
-Plug 'chriskempson/base16-vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'drmingdrmer/vim-tabbar'
-Plug 'scrooloose/nerdtree'
-Plug 'rust-lang/rust.vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'arcticicestudio/nord-vim'
-call plug#end()
+"call plug#begin()
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-easytags'
+"Plug 'Shougo/vimshell.vim'
+"Plug 'chriskempson/base16-vim'
+"Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+"Plug 'drmingdrmer/vim-tabbar'
+"Plug 'scrooloose/nerdtree'
+"Plug 'rust-lang/rust.vim'
+"Plug 'tpope/vim-commentary'
+"Plug 'tpope/vim-fugitive'
+"Plug 'editorconfig/editorconfig-vim'
+"Plug 'arcticicestudio/nord-vim'
+"call plug#end()
 let g:easytags_async=1
 let g:easytags_auto_highlight=0
 set hidden
@@ -20,7 +20,7 @@ let g:racer_experimental_completer = 1
 map <C-n> :NERDTreeToggle<CR>
 "set colorcolumn=80
 
-colorscheme nord
+"colorscheme nord
 au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)

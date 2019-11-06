@@ -21,6 +21,9 @@
 (blink-cursor-mode 0)
 (show-paren-mode 1)
 
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
 (defun my-fullscreen ()
   (interactive)
   (set-frame-parameter nil 'fullscreen 'fullboth) ;this makes the frame go fullscreen
@@ -166,6 +169,7 @@
 (evil-leader/set-key
   "e" 'find-file
   "b" 'switch-to-buffer
+  "m" 'man
   "k" 'kill-buffer)
 
 (require 'evil-magit)
@@ -328,17 +332,17 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
+;; (add-hook 'rust-mode-hook #'racer-mode)
+;; (add-hook 'racer-mode-hook #'eldoc-mode)
+;; (add-hook 'racer-mode-hook #'company-mode)
 (require 'rust-mode)
-(define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-(setq company-tooltip-align-annotations t)
-(add-hook 'rust-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c TAB") #'rust-format-buffer)))
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
-(setq rust-format-on-save t)
+;; (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+;; (setq company-tooltip-align-annotations t)
+;; (add-hook 'rust-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "C-c TAB") #'rust-format-buffer)))
+;; (add-hook 'rust-mode-hook 'cargo-minor-mode)
+;; (setq rust-format-on-save t)
 
 
 (package-install 'exec-path-from-shell)
@@ -442,6 +446,22 @@
                 (setq show-trailing-whitespace t)
                 (c-set-style "linux-tabs-only")))))
 
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
+(require 'yasnippet)
+
+(require 'lsp-mode)
+(add-hook 'rust-mode-hook #'lsp)
+(require 'lsp-ui)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(add-hook 'rust-mode-hook 'flycheck-mode)
+(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+(require 'company-lsp)
+(push 'company-lsp company-backends)
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 ;*******************************************************************************;
@@ -453,15 +473,17 @@
  '(comment-style (quote extra-line))
  '(custom-safe-themes
    (quote
-	("542e6fee85eea8e47243a5647358c344111aa9c04510394720a3108803c8ddd1" "6271fc9740379f8e2722f1510d481c1df1fcc43e48fa6641a5c19e954c21cc8f" "d9dab332207600e49400d798ed05f38372ec32132b3f7d2ba697e59088021555" "f2dd097452b79276ce522df2f8aeb37f6d90f504529616aa46122d549910e46d" "527df6ab42b54d2e5f4eec8b091bd79b2fa9a1da38f5addd297d1c91aa19b616" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
+	("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "542e6fee85eea8e47243a5647358c344111aa9c04510394720a3108803c8ddd1" "6271fc9740379f8e2722f1510d481c1df1fcc43e48fa6641a5c19e954c21cc8f" "d9dab332207600e49400d798ed05f38372ec32132b3f7d2ba697e59088021555" "f2dd097452b79276ce522df2f8aeb37f6d90f504529616aa46122d549910e46d" "527df6ab42b54d2e5f4eec8b091bd79b2fa9a1da38f5addd297d1c91aa19b616" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "e9460a84d876da407d9e6accf9ceba453e2f86f8b86076f37c08ad155de8223c" "d494af9adbd2c04bec4b5c414983fefe665cd5dadc5e5c79fd658a17165e435a" "c4bd8fa17f1f1fc088a1153ca676b1e6abc55005e72809ad3aeffb74bd121d23" "b85fc9f122202c71b9884c5aff428eb81b99d25d619ee6fde7f3016e08515f07" "b34636117b62837b3c0c149260dfebe12c5dad3d1177a758bb41c4b15259ed7e" "c158c2a9f1c5fcf27598d313eec9f9dceadf131ccd10abc6448004b14984767c" default)))
  '(doc-view-continuous t)
  '(global-company-mode nil)
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)
+ '(lsp-ui-flycheck-live-reporting nil)
  '(package-selected-packages
    (quote
-	(treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
+	(arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
  '(persp-keymap-prefix "")
+ '(projectile-mode t nil (projectile))
  '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

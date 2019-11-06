@@ -1,12 +1,14 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export TURBOFISH_ROOT=/home/vcombey/KFS
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export PATH=$PATH:~/Users/vcombey/mongo/bin
 export PATH=$PATH:/Users/vcombey/.gem/ruby/2.4.0/bin
 export PATH=~/.brew/bin:$PATH
 export PATH=/Users/vcombey/.stack/programs/x86_64-osx/ghc-8.4.3/bin:$PATH
+# export PATH="$HOME/opt/cross/bin/:$PATH"
 
 export work=$HOME/git/Autopilot/
 #export AUTOPILOT_PATH=$HOME/git/Autopilot/
@@ -111,3 +113,5 @@ fpath+=~/.zfunc
 
 # opam configuration
 test -r /Users/vcombey/.opam/opam-init/init.zsh && . /Users/vcombey/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+alias serv="ssh vcombey@34.77.146.200"
+alias serv-postgres="ssh vcombey@34.77.118.252"

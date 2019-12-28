@@ -18,11 +18,18 @@
 (dolist (package package-list)
   (unless (package-installed-p package) (package-install package)))
 
+; temporary workaround to make magit commit works
+(require 'subr-x)
 (blink-cursor-mode 0)
 (show-paren-mode 1)
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
+
+(defun dired-find-marked-files ()
+ (interactive)
+ (dolist (f (dired-get-marked-files))
+  (find-file f)))
 
 (defun my-fullscreen ()
   (interactive)
@@ -463,6 +470,36 @@
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 
+;; TYPESCRIPT
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+
+
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 ;*******************************************************************************;
 (custom-set-variables
@@ -481,7 +518,7 @@
  '(lsp-ui-flycheck-live-reporting nil)
  '(package-selected-packages
    (quote
-	(arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
+	(web-mode tide typescript-mode arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
  '(persp-keymap-prefix "")
  '(projectile-mode t nil (projectile))
  '(ring-bell-function (quote ignore)))

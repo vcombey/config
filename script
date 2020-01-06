@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-ln -s ~/.dotfiles/.emacs ~/.emacs
-ln -s ~/.dotfiles/.tmux.conf ~/.tmux.conf
-ln -s ~/.dotfiles/.vimrc ~/.vimrc
-ln -s ~/.dotfiles/.zshrc ~/.zshrc
+rm ~/.emacs ~/.tmux.conf ~/.vimrc ~/.zshrc
+ln -s ~/config/.emacs ~/.emacs
+ln -s ~/config/.tmux.conf ~/.tmux.conf
+ln -s ~/config/.vimrc ~/.vimrc
+ln -s ~/config/.zshrc ~/.zshrc

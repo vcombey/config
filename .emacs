@@ -460,21 +460,22 @@
 
 (require 'yasnippet)
 
-(require 'lsp-mode)
-(add-hook 'rust-mode-hook #'lsp)
-(require 'lsp-ui)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(add-hook 'rust-mode-hook 'flycheck-mode)
-(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+;; (require 'lsp-mode)
+;; (add-hook 'rust-mode-hook #'lsp)
+;; (require 'lsp-ui)
+;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+;; (add-hook 'rust-mode-hook 'flycheck-mode)
+;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+;; (require 'company-lsp)
+;; (push 'company-lsp company-backends)
 
 ;; TYPESCRIPT
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
   (flycheck-mode +1)
+  ;; (typescript-mode)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
@@ -497,7 +498,7 @@
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
               (setup-tide-mode))))
 ;; enable typescript-tslint checker
-(flycheck-add-mode 'typescript-tslint 'web-mode)
+;; (flycheck-add-mode 'typescript-tslint 'web-mode)
 
 
 (add-hook 'tuareg-mode-hook 'merlin-mode)
@@ -518,7 +519,7 @@
  '(lsp-ui-flycheck-live-reporting nil)
  '(package-selected-packages
    (quote
-	(web-mode tide typescript-mode arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
+	(tss web-mode tide typescript-mode arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
  '(persp-keymap-prefix "")
  '(projectile-mode t nil (projectile))
  '(ring-bell-function (quote ignore)))

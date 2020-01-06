@@ -51,7 +51,7 @@
       (my-non-fullscreen)
     (my-fullscreen)))
 
-(global-set-key (kbd "<f11>") 'toggle-fullscreen) 
+(global-set-key (kbd "<f11>") 'toggle-fullscreen)
 
 (my-non-fullscreen)
 
@@ -163,6 +163,7 @@
 (define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
 
 (require 'treemacs)
+(define-key evil-normal-state-map (kbd "C-i") 'treemacs-visit-node-ace)
 (define-key evil-normal-state-map (kbd "C-c C-n") 'treemacs-create-file)
 (define-key treemacs-mode-map (kbd "C-SPC") 'treemacs-peek)
 (define-key evil-normal-state-map (kbd "C-c C-d") 'treemacs-create-dir)
@@ -219,7 +220,7 @@
 ;;
 ;;(defun surround-region-with-paren ()
   ;;"Surrounds the active region with parentheses by killing the region, inserting parens and reinserting the region kill-ring inside"
-  ;;(interactive) 
+  ;;(interactive)
   ;;(progn
 	;;(call-interactively 'kill-region)
 	;;(insert "(")
@@ -390,7 +391,7 @@
   ;;)
  ;;;; (setq helm-projectile-fuzzy-match nil)
 ;;;; (require 'helm-projectile)
-;;(helm-projectile-on) 
+;;(helm-projectile-on)
 ;;
 ;;(add-hook 'c++-mode-hook 'irony-mode)
 ;;(add-hook 'c-mode-hook 'irony-mode)
@@ -500,7 +501,19 @@
 ;; enable typescript-tslint checker
 ;; (flycheck-add-mode 'typescript-tslint 'web-mode)
 
+;; (add-hook 'python-mode-hook '(lambda ()
+;;  (setq python-indent 4)))
+(add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
+(add-hook 'python-mode-hook (lambda ()
+								(guess-style-guess-tab-width)))
+(add-hook 'python-mode-hook
+	(lambda ()
+		(setq-default indent-tabs-mode nil)
+		(setq-default tab-width 4)
+		(setq-default py-indent-tabs-mode nil)
+	(add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
+(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
 (add-hook 'tuareg-mode-hook 'merlin-mode)
 ;*******************************************************************************;
 (custom-set-variables
@@ -519,7 +532,7 @@
  '(lsp-ui-flycheck-live-reporting nil)
  '(package-selected-packages
    (quote
-	(tss web-mode tide typescript-mode arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
+	(js-auto-format-mode tss web-mode psgml rjsx-mode react-snippets python-django tide typescript-mode arduino-mode yasnippet ## lsp-mode perspective treemacs spacemacs-theme persp-mode evil-string-inflection magit-gerrit evil-collection helm-gtags json-mode haskell-emacs nasm-mode key-chord exec-path-from-shell neotree powerline-evil base16-theme flycheck-rust flycheck evil-leader cargo eyebrowse auto-dim-other-buffers company-irony-c-headers company-irony helm-ag atom-dark-theme slime-company slime irony vagrant dockerfile-mode yaml-mode enh-ruby-mode projectile-rails helm-projectile ibuffer-projectile projectile ggtags php-mode racer babel company ac-helm auto-complete seoul256-theme moe-theme rust-mode async-await helm nord-theme subatomic-theme subatomic256-theme xterm-color green-phosphor-theme magit evil)))
  '(persp-keymap-prefix "")
  '(projectile-mode t nil (projectile))
  '(ring-bell-function (quote ignore)))

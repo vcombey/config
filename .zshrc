@@ -115,3 +115,4 @@ fpath+=~/.zfunc
 test -r /Users/vcombey/.opam/opam-init/init.zsh && . /Users/vcombey/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 alias serv="ssh vcombey@34.77.146.200"
 alias serv-postgres="ssh vcombey@34.77.118.252"
+export PATH=$HOME/.brew/bin:$PATH
